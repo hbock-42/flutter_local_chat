@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:local_chat/app-theme.dart';
+import 'package:local_chat/pages/chat-room-page.dart';
 
 import 'pages/home-page.dart';
 
@@ -14,7 +15,8 @@ class MyApp extends StatelessWidget {
       title: 'Local Chat',
       initialRoute: '/',
       routes: {
-        '/': (context) => myMaterial(child: HomePage()),
+        // '/': (context) => myMaterial(child: HomePage()),
+        '/': (context) => myMaterial(child: ChatRoomPage()),
         // '/server': (context) => MyMaterial(child: ServerPage()),
       },
       theme: ThemeData(
