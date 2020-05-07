@@ -7,5 +7,17 @@ class ChatRoomInjector {
     Message(content: "Hello you", type: MessageType.Sent),
     Message(content: "How are you", type: MessageType.Received),
     Message(content: "My friend", type: MessageType.Received),
+    Message(content: "Hello", type: MessageType.Received),
+    Message(content: "Hello you", type: MessageType.Sent),
+    Message(content: "How are you", type: MessageType.Received),
+    Message(content: "My friend", type: MessageType.Received),
+    Message(content: "Hello", type: MessageType.Received),
+    Message(content: "Hello you", type: MessageType.Sent),
+    Message(content: "How are you", type: MessageType.Received),
+    Message(content: "My friend", type: MessageType.Received),
+    Message(content: "Hello", type: MessageType.Received),
+    Message(content: "Hello you", type: MessageType.Sent),
+    Message(content: "How are you", type: MessageType.Received),
+    Message(content: "My friend", type: MessageType.Received),
   ]);
 }
