@@ -28,6 +28,13 @@ class _$ChatRoomEventTearOff {
     return const _JoinRoom();
   }
 
+  _JoinExistingRoom joinExistingRoom(String host, int port) {
+    return _JoinExistingRoom(
+      host,
+      port,
+    );
+  }
+
   _CreateRoom createRoom() {
     return const _CreateRoom();
   }
@@ -42,6 +49,7 @@ mixin _$ChatRoomEvent {
     @required Result sendMessage(Message message),
     @required Result messageReceived(Message message),
     @required Result joinRoom(),
+    @required Result joinExistingRoom(String host, int port),
     @required Result createRoom(),
   });
   @optionalTypeArgs
@@ -49,6 +57,7 @@ mixin _$ChatRoomEvent {
     Result sendMessage(Message message),
     Result messageReceived(Message message),
     Result joinRoom(),
+    Result joinExistingRoom(String host, int port),
     Result createRoom(),
     @required Result orElse(),
   });
@@ -57,6 +66,7 @@ mixin _$ChatRoomEvent {
     @required Result sendMessage(_SendMessage value),
     @required Result messageReceived(_MessageReceived value),
     @required Result joinRoom(_JoinRoom value),
+    @required Result joinExistingRoom(_JoinExistingRoom value),
     @required Result createRoom(_CreateRoom value),
   });
   @optionalTypeArgs
@@ -64,6 +74,7 @@ mixin _$ChatRoomEvent {
     Result sendMessage(_SendMessage value),
     Result messageReceived(_MessageReceived value),
     Result joinRoom(_JoinRoom value),
+    Result joinExistingRoom(_JoinExistingRoom value),
     Result createRoom(_CreateRoom value),
     @required Result orElse(),
   });
@@ -155,11 +166,13 @@ class _$_SendMessage implements _SendMessage {
     @required Result sendMessage(Message message),
     @required Result messageReceived(Message message),
     @required Result joinRoom(),
+    @required Result joinExistingRoom(String host, int port),
     @required Result createRoom(),
   }) {
     assert(sendMessage != null);
     assert(messageReceived != null);
     assert(joinRoom != null);
+    assert(joinExistingRoom != null);
     assert(createRoom != null);
     return sendMessage(message);
   }
@@ -170,6 +183,7 @@ class _$_SendMessage implements _SendMessage {
     Result sendMessage(Message message),
     Result messageReceived(Message message),
     Result joinRoom(),
+    Result joinExistingRoom(String host, int port),
     Result createRoom(),
     @required Result orElse(),
   }) {
@@ -186,11 +200,13 @@ class _$_SendMessage implements _SendMessage {
     @required Result sendMessage(_SendMessage value),
     @required Result messageReceived(_MessageReceived value),
     @required Result joinRoom(_JoinRoom value),
+    @required Result joinExistingRoom(_JoinExistingRoom value),
     @required Result createRoom(_CreateRoom value),
   }) {
     assert(sendMessage != null);
     assert(messageReceived != null);
     assert(joinRoom != null);
+    assert(joinExistingRoom != null);
     assert(createRoom != null);
     return sendMessage(this);
   }
@@ -201,6 +217,7 @@ class _$_SendMessage implements _SendMessage {
     Result sendMessage(_SendMessage value),
     Result messageReceived(_MessageReceived value),
     Result joinRoom(_JoinRoom value),
+    Result joinExistingRoom(_JoinExistingRoom value),
     Result createRoom(_CreateRoom value),
     @required Result orElse(),
   }) {
@@ -291,11 +308,13 @@ class _$_MessageReceived implements _MessageReceived {
     @required Result sendMessage(Message message),
     @required Result messageReceived(Message message),
     @required Result joinRoom(),
+    @required Result joinExistingRoom(String host, int port),
     @required Result createRoom(),
   }) {
     assert(sendMessage != null);
     assert(messageReceived != null);
     assert(joinRoom != null);
+    assert(joinExistingRoom != null);
     assert(createRoom != null);
     return messageReceived(message);
   }
@@ -306,6 +325,7 @@ class _$_MessageReceived implements _MessageReceived {
     Result sendMessage(Message message),
     Result messageReceived(Message message),
     Result joinRoom(),
+    Result joinExistingRoom(String host, int port),
     Result createRoom(),
     @required Result orElse(),
   }) {
@@ -322,11 +342,13 @@ class _$_MessageReceived implements _MessageReceived {
     @required Result sendMessage(_SendMessage value),
     @required Result messageReceived(_MessageReceived value),
     @required Result joinRoom(_JoinRoom value),
+    @required Result joinExistingRoom(_JoinExistingRoom value),
     @required Result createRoom(_CreateRoom value),
   }) {
     assert(sendMessage != null);
     assert(messageReceived != null);
     assert(joinRoom != null);
+    assert(joinExistingRoom != null);
     assert(createRoom != null);
     return messageReceived(this);
   }
@@ -337,6 +359,7 @@ class _$_MessageReceived implements _MessageReceived {
     Result sendMessage(_SendMessage value),
     Result messageReceived(_MessageReceived value),
     Result joinRoom(_JoinRoom value),
+    Result joinExistingRoom(_JoinExistingRoom value),
     Result createRoom(_CreateRoom value),
     @required Result orElse(),
   }) {
@@ -391,11 +414,13 @@ class _$_JoinRoom implements _JoinRoom {
     @required Result sendMessage(Message message),
     @required Result messageReceived(Message message),
     @required Result joinRoom(),
+    @required Result joinExistingRoom(String host, int port),
     @required Result createRoom(),
   }) {
     assert(sendMessage != null);
     assert(messageReceived != null);
     assert(joinRoom != null);
+    assert(joinExistingRoom != null);
     assert(createRoom != null);
     return joinRoom();
   }
@@ -406,6 +431,7 @@ class _$_JoinRoom implements _JoinRoom {
     Result sendMessage(Message message),
     Result messageReceived(Message message),
     Result joinRoom(),
+    Result joinExistingRoom(String host, int port),
     Result createRoom(),
     @required Result orElse(),
   }) {
@@ -422,11 +448,13 @@ class _$_JoinRoom implements _JoinRoom {
     @required Result sendMessage(_SendMessage value),
     @required Result messageReceived(_MessageReceived value),
     @required Result joinRoom(_JoinRoom value),
+    @required Result joinExistingRoom(_JoinExistingRoom value),
     @required Result createRoom(_CreateRoom value),
   }) {
     assert(sendMessage != null);
     assert(messageReceived != null);
     assert(joinRoom != null);
+    assert(joinExistingRoom != null);
     assert(createRoom != null);
     return joinRoom(this);
   }
@@ -437,6 +465,7 @@ class _$_JoinRoom implements _JoinRoom {
     Result sendMessage(_SendMessage value),
     Result messageReceived(_MessageReceived value),
     Result joinRoom(_JoinRoom value),
+    Result joinExistingRoom(_JoinExistingRoom value),
     Result createRoom(_CreateRoom value),
     @required Result orElse(),
   }) {
@@ -450,6 +479,147 @@ class _$_JoinRoom implements _JoinRoom {
 
 abstract class _JoinRoom implements ChatRoomEvent {
   const factory _JoinRoom() = _$_JoinRoom;
+}
+
+abstract class _$JoinExistingRoomCopyWith<$Res> {
+  factory _$JoinExistingRoomCopyWith(
+          _JoinExistingRoom value, $Res Function(_JoinExistingRoom) then) =
+      __$JoinExistingRoomCopyWithImpl<$Res>;
+  $Res call({String host, int port});
+}
+
+class __$JoinExistingRoomCopyWithImpl<$Res>
+    extends _$ChatRoomEventCopyWithImpl<$Res>
+    implements _$JoinExistingRoomCopyWith<$Res> {
+  __$JoinExistingRoomCopyWithImpl(
+      _JoinExistingRoom _value, $Res Function(_JoinExistingRoom) _then)
+      : super(_value, (v) => _then(v as _JoinExistingRoom));
+
+  @override
+  _JoinExistingRoom get _value => super._value as _JoinExistingRoom;
+
+  @override
+  $Res call({
+    Object host = freezed,
+    Object port = freezed,
+  }) {
+    return _then(_JoinExistingRoom(
+      host == freezed ? _value.host : host as String,
+      port == freezed ? _value.port : port as int,
+    ));
+  }
+}
+
+class _$_JoinExistingRoom implements _JoinExistingRoom {
+  const _$_JoinExistingRoom(this.host, this.port)
+      : assert(host != null),
+        assert(port != null);
+
+  @override
+  final String host;
+  @override
+  final int port;
+
+  @override
+  String toString() {
+    return 'ChatRoomEvent.joinExistingRoom(host: $host, port: $port)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is _JoinExistingRoom &&
+            (identical(other.host, host) ||
+                const DeepCollectionEquality().equals(other.host, host)) &&
+            (identical(other.port, port) ||
+                const DeepCollectionEquality().equals(other.port, port)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(host) ^
+      const DeepCollectionEquality().hash(port);
+
+  @override
+  _$JoinExistingRoomCopyWith<_JoinExistingRoom> get copyWith =>
+      __$JoinExistingRoomCopyWithImpl<_JoinExistingRoom>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  Result when<Result extends Object>({
+    @required Result sendMessage(Message message),
+    @required Result messageReceived(Message message),
+    @required Result joinRoom(),
+    @required Result joinExistingRoom(String host, int port),
+    @required Result createRoom(),
+  }) {
+    assert(sendMessage != null);
+    assert(messageReceived != null);
+    assert(joinRoom != null);
+    assert(joinExistingRoom != null);
+    assert(createRoom != null);
+    return joinExistingRoom(host, port);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeWhen<Result extends Object>({
+    Result sendMessage(Message message),
+    Result messageReceived(Message message),
+    Result joinRoom(),
+    Result joinExistingRoom(String host, int port),
+    Result createRoom(),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (joinExistingRoom != null) {
+      return joinExistingRoom(host, port);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  Result map<Result extends Object>({
+    @required Result sendMessage(_SendMessage value),
+    @required Result messageReceived(_MessageReceived value),
+    @required Result joinRoom(_JoinRoom value),
+    @required Result joinExistingRoom(_JoinExistingRoom value),
+    @required Result createRoom(_CreateRoom value),
+  }) {
+    assert(sendMessage != null);
+    assert(messageReceived != null);
+    assert(joinRoom != null);
+    assert(joinExistingRoom != null);
+    assert(createRoom != null);
+    return joinExistingRoom(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeMap<Result extends Object>({
+    Result sendMessage(_SendMessage value),
+    Result messageReceived(_MessageReceived value),
+    Result joinRoom(_JoinRoom value),
+    Result joinExistingRoom(_JoinExistingRoom value),
+    Result createRoom(_CreateRoom value),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (joinExistingRoom != null) {
+      return joinExistingRoom(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _JoinExistingRoom implements ChatRoomEvent {
+  const factory _JoinExistingRoom(String host, int port) = _$_JoinExistingRoom;
+
+  String get host;
+  int get port;
+  _$JoinExistingRoomCopyWith<_JoinExistingRoom> get copyWith;
 }
 
 abstract class _$CreateRoomCopyWith<$Res> {
@@ -490,11 +660,13 @@ class _$_CreateRoom implements _CreateRoom {
     @required Result sendMessage(Message message),
     @required Result messageReceived(Message message),
     @required Result joinRoom(),
+    @required Result joinExistingRoom(String host, int port),
     @required Result createRoom(),
   }) {
     assert(sendMessage != null);
     assert(messageReceived != null);
     assert(joinRoom != null);
+    assert(joinExistingRoom != null);
     assert(createRoom != null);
     return createRoom();
   }
@@ -505,6 +677,7 @@ class _$_CreateRoom implements _CreateRoom {
     Result sendMessage(Message message),
     Result messageReceived(Message message),
     Result joinRoom(),
+    Result joinExistingRoom(String host, int port),
     Result createRoom(),
     @required Result orElse(),
   }) {
@@ -521,11 +694,13 @@ class _$_CreateRoom implements _CreateRoom {
     @required Result sendMessage(_SendMessage value),
     @required Result messageReceived(_MessageReceived value),
     @required Result joinRoom(_JoinRoom value),
+    @required Result joinExistingRoom(_JoinExistingRoom value),
     @required Result createRoom(_CreateRoom value),
   }) {
     assert(sendMessage != null);
     assert(messageReceived != null);
     assert(joinRoom != null);
+    assert(joinExistingRoom != null);
     assert(createRoom != null);
     return createRoom(this);
   }
@@ -536,6 +711,7 @@ class _$_CreateRoom implements _CreateRoom {
     Result sendMessage(_SendMessage value),
     Result messageReceived(_MessageReceived value),
     Result joinRoom(_JoinRoom value),
+    Result joinExistingRoom(_JoinExistingRoom value),
     Result createRoom(_CreateRoom value),
     @required Result orElse(),
   }) {

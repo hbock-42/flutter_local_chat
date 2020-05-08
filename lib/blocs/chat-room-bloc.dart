@@ -11,6 +11,7 @@ part 'chat-room-bloc.freezed.dart';
 
 class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
   ChatRoom _chatRoom = ChatRoom(messages: List<Message>());
+  Sink sink;
 
   @override
   get initialState => ChatRoomState.initial();
@@ -18,12 +19,20 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
   @override
   Stream<ChatRoomState> mapEventToState(ChatRoomEvent event) async* {
     yield event.when(
-      sendMessage: (message) =>
-          ChatRoomState.current(_chatRoom, _chatRoom.messageCount),
+      sendMessage: (message) {
+        _chatRoom.messages.add(message);
+        sink?.add(message.content);
+        return ChatRoomState.current(_chatRoom, _chatRoom.messageCount);
+      },
       messageReceived: (message) {
+        _chatRoom.messages.add(message);
         return ChatRoomState.current(_chatRoom, _chatRoom.messageCount);
       },
       joinRoom: () {
+        return ChatRoomState.current(_chatRoom, _chatRoom.messageCount);
+      },
+      joinExistingRoom: (String host, int port) {
+        _connectToServer(host: host, port: port);
         return ChatRoomState.current(_chatRoom, _chatRoom.messageCount);
       },
       createRoom: () {
@@ -33,11 +42,13 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     );
   }
 
-  void sendMessage(Message message) =>
-      this.add(ChatRoomEvent.sendMessage(message));
+  void sendMessage(String text) => this.add(ChatRoomEvent.sendMessage(
+      Message(content: text, type: MessageType.Sent)));
   void messageReceived(Message message) =>
       this.add(ChatRoomEvent.messageReceived(message));
   void joinRoom() => this.add(ChatRoomEvent.joinRoom());
+  void joinExistingRoom(String host, int port) =>
+      this.add(ChatRoomEvent.joinExistingRoom(host, port));
   void createRoom() => this.add(ChatRoomEvent.createRoom());
 
   void _connectToServer({@required String host, int port = 8080}) {
@@ -45,23 +56,24 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     print(port);
     IOWebSocketChannel channel =
         IOWebSocketChannel.connect("ws://$host:${port.toString()}");
-    // _messageStream = channel.stream;
-    // channel.stream.listen((message) {
-    //   messageReceived(Message(content: message, type: MessageType.Received));
-    //   print("received: " + message);
-    // });
+    sink = channel.sink;
+    channel.stream.listen((message) {
+      _onMessageReceived(message);
+      print("received: " + message);
+    });
+  }
+
+  void _onMessageReceived(String text) {
+    var message = Message(content: text, type: MessageType.Received);
+    messageReceived(message);
   }
 
   Future _startServer() async {
     var handler = webSocketHandler((webSocket) {
-      // _messageStream = webSocket.stream;
       joinRoom();
+      sink = webSocket.sink;
       webSocket.stream.listen((message) {
-        print("message received:" + message);
-        var formatMessage =
-            Message(content: message, type: MessageType.Received);
-        _chatRoom.messages.add(formatMessage);
-        messageReceived(formatMessage);
+        _onMessageReceived(message);
       });
     });
     String ip = await Wifi.ip;
@@ -77,6 +89,8 @@ abstract class ChatRoomEvent with _$ChatRoomEvent {
   const factory ChatRoomEvent.messageReceived(Message message) =
       _MessageReceived;
   const factory ChatRoomEvent.joinRoom() = _JoinRoom;
+  const factory ChatRoomEvent.joinExistingRoom(String host, int port) =
+      _JoinExistingRoom;
   const factory ChatRoomEvent.createRoom() = _CreateRoom;
 }
 

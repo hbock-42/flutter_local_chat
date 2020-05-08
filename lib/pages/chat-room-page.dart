@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local_chat/blocs/chat-room-bloc.dart';
 import 'package:local_chat/widgets/message-widget.dart';
+import 'package:local_chat/widgets/message_input.dart';
 
 class ChatRoomPage extends StatelessWidget {
   @override
@@ -25,7 +26,24 @@ class ChatRoomPage extends StatelessWidget {
       padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Row(children: [Text('header text')]),
+        child: Row(
+          children: [
+            Expanded(child: Text('header text')),
+            GestureDetector(
+              onTap: () => Navigator.maybePop(context),
+              child: Container(
+                  color: Colors.transparent,
+                  child: IconTheme.merge(
+                    data: IconThemeData(
+                      size: 18,
+                      color: Colors.white,
+                    ),
+                    child: BackButtonIcon(),
+                  )),
+            ),
+            SizedBox(width: 10)
+          ],
+        ),
       ),
     );
   }
@@ -35,7 +53,7 @@ class ChatRoomPage extends StatelessWidget {
       builder: (context, state) {
         return state.when(
           initial: () => Container(
-            child: Text("The is no messages yet ..."),
+            child: Center(child: Text("The is no messages yet ...")),
           ),
           current: (room, _) {
             return ListView(
@@ -54,6 +72,6 @@ class ChatRoomPage extends StatelessWidget {
   }
 
   Widget buildInput() {
-    return Container(color: Colors.red, child: Text("input"));
+    return MessageInput();
   }
 }
