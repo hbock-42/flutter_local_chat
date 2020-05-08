@@ -9,6 +9,7 @@ class MessageInput extends StatefulWidget {
 
 class _MessageInputState extends State<MessageInput> {
   String messageToSend;
+  TextEditingController textEditingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +23,7 @@ class _MessageInputState extends State<MessageInput> {
           children: <Widget>[
             Expanded(
               child: TextField(
+                controller: textEditingController,
                 autocorrect: false,
                 enableSuggestions: false,
                 onChanged: (text) {
@@ -48,5 +50,10 @@ class _MessageInputState extends State<MessageInput> {
   void _sendMessageIfNotNullOrEmpty() {
     if (messageToSend == null || messageToSend.isEmpty) return;
     context.bloc<ChatRoomBloc>().sendMessage(messageToSend);
+
+    setState(() {
+      messageToSend = "";
+      textEditingController.clear();
+    });
   }
 }

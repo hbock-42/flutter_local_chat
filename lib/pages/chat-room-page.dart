@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local_chat/blocs/chat-room-bloc.dart';
 import 'package:local_chat/widgets/message-widget.dart';
 import 'package:local_chat/widgets/message_input.dart';
+import 'package:local_chat/widgets/message_list.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 
 class ChatRoomPage extends StatelessWidget {
   @override
@@ -12,7 +14,7 @@ class ChatRoomPage extends StatelessWidget {
         children: [
           Column(children: [
             buildHeader(context),
-            Expanded(child: buildMessages()),
+            Expanded(child: MessageList()),
             buildInput(),
           ])
         ],
@@ -45,9 +47,9 @@ class ChatRoomPage extends StatelessWidget {
   Widget _buildRoomInfos(String host, int port) {
     return Expanded(
         child: Text(
-          "$host:$port",
-          textAlign: TextAlign.center,
-        ));
+      "$host:$port",
+      textAlign: TextAlign.center,
+    ));
   }
 
   Widget buildLeaveButton(BuildContext context) {
@@ -65,29 +67,6 @@ class ChatRoomPage extends StatelessWidget {
             ),
             child: BackButtonIcon(),
           )),
-    );
-  }
-
-  Widget buildMessages() {
-    return BlocBuilder<ChatRoomBloc, ChatRoomState>(
-      builder: (context, state) {
-        return state.when(
-          initial: (room) => Container(
-            child: Center(child: Text("The is no messages yet ...")),
-          ),
-          current: (room, _) {
-            return ListView(
-              children: room.messages
-                  .map((message) => Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 4.0, horizontal: 8),
-                        child: MessageWidget(message: message),
-                      ))
-                  .toList(),
-            );
-          },
-        );
-      },
     );
   }
 

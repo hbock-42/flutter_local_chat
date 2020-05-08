@@ -83,7 +83,6 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
 
   Future _startServer() async {
     var handler = webSocketHandler((webSocket) {
-      joinRoom();
       sink = webSocket.sink;
       webSocket.stream.listen((message) {
         _onMessageReceived(message);
@@ -94,6 +93,7 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
       this.server = server;
       _chatRoom =
           _chatRoom.copyWith(host: server.address.host, port: server.port);
+      joinRoom();
       print('Serving at ws://${server.address.host}:${server.port}');
     });
   }
