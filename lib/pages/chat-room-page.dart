@@ -21,30 +21,50 @@ class ChatRoomPage extends StatelessWidget {
   }
 
   Widget buildHeader(BuildContext context) {
-    return Container(
-      color: Colors.white.withOpacity(0.2),
-      padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          children: [
-            Expanded(child: Text('header text')),
-            GestureDetector(
-              onTap: () => Navigator.maybePop(context),
-              child: Container(
-                  color: Colors.transparent,
-                  child: IconTheme.merge(
-                    data: IconThemeData(
-                      size: 18,
-                      color: Colors.white,
-                    ),
-                    child: BackButtonIcon(),
-                  )),
-            ),
-            SizedBox(width: 10)
-          ],
+    return BlocBuilder<ChatRoomBloc, ChatRoomState>(
+      builder: (context, state) => Container(
+        color: Colors.white.withOpacity(0.2),
+        padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Text('header text'),
+              state.when(
+                  initial: (room) => _buildRoomInfos(room.host, room.port),
+                  current: (room, _) => _buildRoomInfos(room.host, room.port)),
+              buildLeaveButton(context),
+              SizedBox(width: 10)
+            ],
+          ),
         ),
       ),
+    );
+  }
+
+  Widget _buildRoomInfos(String host, int port) {
+    return Expanded(
+        child: Text(
+          "$host:$port",
+          textAlign: TextAlign.center,
+        ));
+  }
+
+  Widget buildLeaveButton(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        context.bloc<ChatRoomBloc>().closeRoom();
+        Navigator.maybePop(context);
+      },
+      child: Container(
+          color: Colors.transparent,
+          child: IconTheme.merge(
+            data: IconThemeData(
+              size: 18,
+              color: Colors.white,
+            ),
+            child: BackButtonIcon(),
+          )),
     );
   }
 
@@ -52,7 +72,7 @@ class ChatRoomPage extends StatelessWidget {
     return BlocBuilder<ChatRoomBloc, ChatRoomState>(
       builder: (context, state) {
         return state.when(
-          initial: () => Container(
+          initial: (room) => Container(
             child: Center(child: Text("The is no messages yet ...")),
           ),
           current: (room, _) {

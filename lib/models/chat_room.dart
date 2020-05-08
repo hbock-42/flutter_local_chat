@@ -9,6 +9,8 @@ abstract class ChatRoom implements _$ChatRoom {
   const ChatRoom._();
   const factory ChatRoom({
     @required List<Message> messages,
+    String host,
+    int port,
   }) = _ChatRoom;
 
   int get messageCount => messages.length;
