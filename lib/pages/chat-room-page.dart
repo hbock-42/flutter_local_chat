@@ -1,46 +1,20 @@
-import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local_chat/blocs/chat-room-bloc.dart';
-import 'package:local_chat/mocks/chat-room-injector.dart';
-import 'package:local_chat/models/chat_room.dart';
-import 'package:local_chat/models/message.dart';
 import 'package:local_chat/widgets/message-widget.dart';
 
-class ChatRoomPage extends StatefulWidget {
-  // final ChatRoom _chatRoom = ChatRoomInjector.chatRoom;
-  @override
-  _ChatRoomPageState createState() => _ChatRoomPageState();
-}
-
-class _ChatRoomPageState extends State<ChatRoomPage> {
-  ChatRoom _chatRoom;
-
-  @override
-  void initState() {
-    super.initState();
-    _chatRoom = ChatRoom(messages: []);
-  }
-
+class ChatRoomPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocListener<ChatRoomBloc, ChatRoomState>(
-      listener: (BuildContext context, ChatRoomState state) {
-        print("LOLO");
-        state.when(
-          initial: () => {},
-          current: (chatRoom) {},
-        );
-      },
-      child: Container(
-        child: Stack(
-          children: [
-            Column(children: [
-              buildHeader(context),
-              buildMessages(_chatRoom.messages),
-            ])
-          ],
-        ),
+    return Container(
+      child: Stack(
+        children: [
+          Column(children: [
+            buildHeader(context),
+            Expanded(child: buildMessages()),
+            buildInput(),
+          ])
+        ],
       ),
     );
   }
@@ -56,16 +30,30 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
     );
   }
 
-  Widget buildMessages(List<Message> messages) {
-    return Expanded(
-      child: ListView(
-          children: messages
-              .map((message) => Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 4.0, horizontal: 8),
-                    child: MessageWidget(message: message),
-                  ))
-              .toList()),
+  Widget buildMessages() {
+    return BlocBuilder<ChatRoomBloc, ChatRoomState>(
+      builder: (context, state) {
+        return state.when(
+          initial: () => Container(
+            child: Text("The is no messages yet ..."),
+          ),
+          current: (room, _) {
+            return ListView(
+              children: room.messages
+                  .map((message) => Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 4.0, horizontal: 8),
+                        child: MessageWidget(message: message),
+                      ))
+                  .toList(),
+            );
+          },
+        );
+      },
     );
+  }
+
+  Widget buildInput() {
+    return Container(color: Colors.red, child: Text("input"));
   }
 }

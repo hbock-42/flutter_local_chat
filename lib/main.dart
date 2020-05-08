@@ -15,16 +15,6 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var chatRoom1 = ChatRoom(messages: List<Message>());
-    var chatRoom2 = ChatRoom(messages: List<Message>());
-    chatRoom1.messages
-        .add(Message(content: "hello", type: MessageType.Received));
-    var chatRoomStateCurrent1 = ChatRoomState.current(chatRoom1);
-    var chatRoomStateCurrent2 = ChatRoomState.current(chatRoom2);
-
-    print("state are equal ? : " +
-        (chatRoomStateCurrent1 == chatRoomStateCurrent2).toString());
-
     return BlocProvider<ChatRoomBloc>(
       create: (BuildContext context) => ChatRoomBloc(),
       child: MaterialApp(

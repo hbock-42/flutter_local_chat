@@ -78,8 +78,10 @@ class __$ChatRoomCopyWithImpl<$Res> extends _$ChatRoomCopyWithImpl<$Res>
   }
 }
 
-class _$_ChatRoom implements _ChatRoom {
-  const _$_ChatRoom({@required this.messages}) : assert(messages != null);
+class _$_ChatRoom extends _ChatRoom {
+  const _$_ChatRoom({@required this.messages})
+      : assert(messages != null),
+        super._();
 
   @override
   final List<Message> messages;
@@ -107,7 +109,8 @@ class _$_ChatRoom implements _ChatRoom {
       __$ChatRoomCopyWithImpl<_ChatRoom>(this, _$identity);
 }
 
-abstract class _ChatRoom implements ChatRoom {
+abstract class _ChatRoom extends ChatRoom {
+  const _ChatRoom._() : super._();
   const factory _ChatRoom({@required List<Message> messages}) = _$_ChatRoom;
 
   @override

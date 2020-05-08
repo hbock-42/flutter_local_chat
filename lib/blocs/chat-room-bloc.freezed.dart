@@ -558,9 +558,10 @@ class _$ChatRoomStateTearOff {
     return const _Initial();
   }
 
-  _Current current(ChatRoom chatRoom) {
+  _Current current(ChatRoom chatRoom, int messageCount) {
     return _Current(
       chatRoom,
+      messageCount,
     );
   }
 }
@@ -572,12 +573,12 @@ mixin _$ChatRoomState {
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required Result initial(),
-    @required Result current(ChatRoom chatRoom),
+    @required Result current(ChatRoom chatRoom, int messageCount),
   });
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result initial(),
-    Result current(ChatRoom chatRoom),
+    Result current(ChatRoom chatRoom, int messageCount),
     @required Result orElse(),
   });
   @optionalTypeArgs
@@ -642,7 +643,7 @@ class _$_Initial implements _Initial {
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required Result initial(),
-    @required Result current(ChatRoom chatRoom),
+    @required Result current(ChatRoom chatRoom, int messageCount),
   }) {
     assert(initial != null);
     assert(current != null);
@@ -653,7 +654,7 @@ class _$_Initial implements _Initial {
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result initial(),
-    Result current(ChatRoom chatRoom),
+    Result current(ChatRoom chatRoom, int messageCount),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -696,7 +697,7 @@ abstract class _Initial implements ChatRoomState {
 abstract class _$CurrentCopyWith<$Res> {
   factory _$CurrentCopyWith(_Current value, $Res Function(_Current) then) =
       __$CurrentCopyWithImpl<$Res>;
-  $Res call({ChatRoom chatRoom});
+  $Res call({ChatRoom chatRoom, int messageCount});
 
   $ChatRoomCopyWith<$Res> get chatRoom;
 }
@@ -712,9 +713,11 @@ class __$CurrentCopyWithImpl<$Res> extends _$ChatRoomStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object chatRoom = freezed,
+    Object messageCount = freezed,
   }) {
     return _then(_Current(
       chatRoom == freezed ? _value.chatRoom : chatRoom as ChatRoom,
+      messageCount == freezed ? _value.messageCount : messageCount as int,
     ));
   }
 
@@ -730,14 +733,18 @@ class __$CurrentCopyWithImpl<$Res> extends _$ChatRoomStateCopyWithImpl<$Res>
 }
 
 class _$_Current implements _Current {
-  const _$_Current(this.chatRoom) : assert(chatRoom != null);
+  const _$_Current(this.chatRoom, this.messageCount)
+      : assert(chatRoom != null),
+        assert(messageCount != null);
 
   @override
   final ChatRoom chatRoom;
+  @override
+  final int messageCount;
 
   @override
   String toString() {
-    return 'ChatRoomState.current(chatRoom: $chatRoom)';
+    return 'ChatRoomState.current(chatRoom: $chatRoom, messageCount: $messageCount)';
   }
 
   @override
@@ -746,12 +753,17 @@ class _$_Current implements _Current {
         (other is _Current &&
             (identical(other.chatRoom, chatRoom) ||
                 const DeepCollectionEquality()
-                    .equals(other.chatRoom, chatRoom)));
+                    .equals(other.chatRoom, chatRoom)) &&
+            (identical(other.messageCount, messageCount) ||
+                const DeepCollectionEquality()
+                    .equals(other.messageCount, messageCount)));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(chatRoom);
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(chatRoom) ^
+      const DeepCollectionEquality().hash(messageCount);
 
   @override
   _$CurrentCopyWith<_Current> get copyWith =>
@@ -761,23 +773,23 @@ class _$_Current implements _Current {
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required Result initial(),
-    @required Result current(ChatRoom chatRoom),
+    @required Result current(ChatRoom chatRoom, int messageCount),
   }) {
     assert(initial != null);
     assert(current != null);
-    return current(chatRoom);
+    return current(chatRoom, messageCount);
   }
 
   @override
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result initial(),
-    Result current(ChatRoom chatRoom),
+    Result current(ChatRoom chatRoom, int messageCount),
     @required Result orElse(),
   }) {
     assert(orElse != null);
     if (current != null) {
-      return current(chatRoom);
+      return current(chatRoom, messageCount);
     }
     return orElse();
   }
@@ -809,8 +821,9 @@ class _$_Current implements _Current {
 }
 
 abstract class _Current implements ChatRoomState {
-  const factory _Current(ChatRoom chatRoom) = _$_Current;
+  const factory _Current(ChatRoom chatRoom, int messageCount) = _$_Current;
 
   ChatRoom get chatRoom;
+  int get messageCount;
   _$CurrentCopyWith<_Current> get copyWith;
 }

@@ -11,7 +11,6 @@ part 'chat-room-bloc.freezed.dart';
 
 class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
   ChatRoom _chatRoom = ChatRoom(messages: List<Message>());
-  Stream _messageStream;
 
   @override
   get initialState => ChatRoomState.initial();
@@ -19,13 +18,13 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
   @override
   Stream<ChatRoomState> mapEventToState(ChatRoomEvent event) async* {
     yield event.when(
-      sendMessage: (message) => ChatRoomState.current(_chatRoom),
+      sendMessage: (message) =>
+          ChatRoomState.current(_chatRoom, _chatRoom.messageCount),
       messageReceived: (message) {
-        _chatRoom.messages.add(message);
-        return ChatRoomState.current(_chatRoom);
+        return ChatRoomState.current(_chatRoom, _chatRoom.messageCount);
       },
       joinRoom: () {
-        return ChatRoomState.current(_chatRoom);
+        return ChatRoomState.current(_chatRoom, _chatRoom.messageCount);
       },
       createRoom: () {
         _startServer();
@@ -46,7 +45,7 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     print(port);
     IOWebSocketChannel channel =
         IOWebSocketChannel.connect("ws://$host:${port.toString()}");
-    _messageStream = channel.stream;
+    // _messageStream = channel.stream;
     // channel.stream.listen((message) {
     //   messageReceived(Message(content: message, type: MessageType.Received));
     //   print("received: " + message);
@@ -55,11 +54,14 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
 
   Future _startServer() async {
     var handler = webSocketHandler((webSocket) {
-      _messageStream = webSocket.stream;
+      // _messageStream = webSocket.stream;
       joinRoom();
       webSocket.stream.listen((message) {
         print("message received:" + message);
-        messageReceived(Message(content: message, type: MessageType.Received));
+        var formatMessage =
+            Message(content: message, type: MessageType.Received);
+        _chatRoom.messages.add(formatMessage);
+        messageReceived(formatMessage);
       });
     });
     String ip = await Wifi.ip;
@@ -81,5 +83,6 @@ abstract class ChatRoomEvent with _$ChatRoomEvent {
 @freezed
 abstract class ChatRoomState with _$ChatRoomState {
   const factory ChatRoomState.initial() = _Initial;
-  const factory ChatRoomState.current(ChatRoom chatRoom) = _Current;
+  const factory ChatRoomState.current(ChatRoom chatRoom, int messageCount) =
+      _Current;
 }
