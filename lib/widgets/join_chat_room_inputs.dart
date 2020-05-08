@@ -16,53 +16,56 @@ class _JoinChatRoomInputsState extends State<JoinChatRoomInputs> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
       padding: EdgeInsets.symmetric(horizontal: 20),
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20),
-        decoration: BoxDecoration(
-            color: AppTheme.widgetBackgroundColor,
-            borderRadius: BorderRadius.circular(200)),
-        child: Column(
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: TextField(
-                    autocorrect: false,
-                    enableSuggestions: false,
-                    onChanged: (text) {
-                      setState(() {
-                        host = text;
-                      });
-                    },
-                    decoration: InputDecoration(
-                        labelText: "ip",
-                        labelStyle: TextStyle(color: Colors.grey)),
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-                Expanded(
-                  child: TextField(
-                    keyboardType: TextInputType.number,
-                    autocorrect: false,
-                    enableSuggestions: false,
-                    onChanged: (text) {
-                      setState(() {
-                        port = int.parse(text);
-                      });
-                    },
-                    decoration: InputDecoration(
-                        labelText: "port",
-                        labelStyle: TextStyle(color: Colors.grey)),
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-              ],
-            ),
-            Button("Try connect", onTap: () => tryConnect(context)),
-          ],
-        ),
+      child: Stack(
+        children: <Widget>[
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              TextField(
+                autocorrect: false,
+                enableSuggestions: false,
+                onChanged: (text) {
+                  setState(() {
+                    host = text;
+                  });
+                },
+                decoration: InputDecoration(
+                    labelText: "ip", labelStyle: TextStyle(color: Colors.grey)),
+                style: TextStyle(color: Colors.white),
+              ),
+              SizedBox(height: 20),
+              TextField(
+                keyboardType: TextInputType.number,
+                autocorrect: false,
+                enableSuggestions: false,
+                onChanged: (text) {
+                  setState(() {
+                    port = int.parse(text);
+                  });
+                },
+                decoration: InputDecoration(
+                    labelText: "port",
+                    labelStyle: TextStyle(color: Colors.grey)),
+                style: TextStyle(color: Colors.white),
+              ),
+              SizedBox(height: 40),
+              Button(
+                "Try connect",
+                onTap: () => tryConnect(context),
+                color: Colors.black.withOpacity(0.6),
+              ),
+            ],
+          ),
+          Align(
+              alignment: Alignment.topRight,
+              child: Padding(
+                padding:
+                    EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+                child: BackButton(color: Colors.white),
+              )),
+        ],
       ),
     );
   }

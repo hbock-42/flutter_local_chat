@@ -4,8 +4,9 @@ import 'package:local_chat/app-theme.dart';
 class Button extends StatelessWidget {
   final void Function() onTap;
   final String text;
+  final Color color;
 
-  const Button(this.text, {Key key, this.onTap}) : super(key: key);
+  const Button(this.text, {Key key, this.onTap, this.color}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +15,7 @@ class Button extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 12, horizontal: 20),
         decoration: BoxDecoration(
-          color: AppTheme.widgetBackgroundColor,
+          color: color ?? AppTheme.widgetBackgroundColor,
           borderRadius: BorderRadius.circular(100),
         ),
         child: ConstrainedBox(

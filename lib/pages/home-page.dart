@@ -1,8 +1,11 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local_chat/blocs/chat-room-bloc.dart';
 import 'package:local_chat/widgets/button.dart';
 import 'package:local_chat/widgets/join_chat_room_inputs.dart';
+
+import '../app-theme.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -17,15 +20,24 @@ class _HomePageState extends State<HomePage> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Button(
-          "Join chat room",
-          onTap: () {
-            setState(() {
-              showInputs = !showInputs;
-            });
-          },
+        OpenContainer(
+          closedColor: Colors.transparent,
+          openColor: AppTheme.widgetBackgroundColor,
+          closedBuilder: (BuildContext context, void Function() action) =>
+              IgnorePointer(
+            child: Button(
+              "Join chat room",
+              onTap: () {
+                setState(() {
+                  showInputs = !showInputs;
+                });
+              },
+            ),
+          ),
+          openBuilder: (BuildContext context, void Function() action) =>
+              JoinChatRoomInputs(),
         ),
-        if (showInputs) ...buildInputs(),
+        // if (showInputs) ...buildInputs(),
         SizedBox(height: 14),
         Button(
           "Create chat room",
