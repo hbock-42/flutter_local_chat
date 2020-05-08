@@ -19,14 +19,13 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
   @override
   Stream<ChatRoomState> mapEventToState(ChatRoomEvent event) async* {
     yield event.when(
-      sendMessage: (message) =>
-          ChatRoomState.current(_chatRoom, _messageStream),
+      sendMessage: (message) => ChatRoomState.current(_chatRoom),
       messageReceived: (message) {
         _chatRoom.messages.add(message);
-        return ChatRoomState.current(_chatRoom, _messageStream);
+        return ChatRoomState.current(_chatRoom);
       },
       joinRoom: () {
-        return ChatRoomState.current(_chatRoom, _messageStream);
+        return ChatRoomState.current(_chatRoom);
       },
       createRoom: () {
         _startServer();
@@ -42,7 +41,7 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
   void joinRoom() => this.add(ChatRoomEvent.joinRoom());
   void createRoom() => this.add(ChatRoomEvent.createRoom());
 
-  Future _connectToServer({@required String host, int port = 8080}) async {
+  void _connectToServer({@required String host, int port = 8080}) {
     print(host);
     print(port);
     IOWebSocketChannel channel =
@@ -58,10 +57,10 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     var handler = webSocketHandler((webSocket) {
       _messageStream = webSocket.stream;
       joinRoom();
-      // webSocket.stream.listen((message) {
-      //   print("message received:" + message);
-      //   messageReceived(Message(content: message, type: MessageType.Received));
-      // });
+      webSocket.stream.listen((message) {
+        print("message received:" + message);
+        messageReceived(Message(content: message, type: MessageType.Received));
+      });
     });
     String ip = await Wifi.ip;
     shelf_io.serve(handler, ip, 8080).then((server) {
@@ -82,6 +81,5 @@ abstract class ChatRoomEvent with _$ChatRoomEvent {
 @freezed
 abstract class ChatRoomState with _$ChatRoomState {
   const factory ChatRoomState.initial() = _Initial;
-  const factory ChatRoomState.current(ChatRoom chatRoom, Stream stream) =
-      _Current;
+  const factory ChatRoomState.current(ChatRoom chatRoom) = _Current;
 }

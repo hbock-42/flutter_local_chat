@@ -558,10 +558,9 @@ class _$ChatRoomStateTearOff {
     return const _Initial();
   }
 
-  _Current current(ChatRoom chatRoom, Stream<dynamic> stream) {
+  _Current current(ChatRoom chatRoom) {
     return _Current(
       chatRoom,
-      stream,
     );
   }
 }
@@ -573,12 +572,12 @@ mixin _$ChatRoomState {
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required Result initial(),
-    @required Result current(ChatRoom chatRoom, Stream<dynamic> stream),
+    @required Result current(ChatRoom chatRoom),
   });
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result initial(),
-    Result current(ChatRoom chatRoom, Stream<dynamic> stream),
+    Result current(ChatRoom chatRoom),
     @required Result orElse(),
   });
   @optionalTypeArgs
@@ -643,7 +642,7 @@ class _$_Initial implements _Initial {
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required Result initial(),
-    @required Result current(ChatRoom chatRoom, Stream<dynamic> stream),
+    @required Result current(ChatRoom chatRoom),
   }) {
     assert(initial != null);
     assert(current != null);
@@ -654,7 +653,7 @@ class _$_Initial implements _Initial {
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result initial(),
-    Result current(ChatRoom chatRoom, Stream<dynamic> stream),
+    Result current(ChatRoom chatRoom),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -697,7 +696,7 @@ abstract class _Initial implements ChatRoomState {
 abstract class _$CurrentCopyWith<$Res> {
   factory _$CurrentCopyWith(_Current value, $Res Function(_Current) then) =
       __$CurrentCopyWithImpl<$Res>;
-  $Res call({ChatRoom chatRoom, Stream<dynamic> stream});
+  $Res call({ChatRoom chatRoom});
 
   $ChatRoomCopyWith<$Res> get chatRoom;
 }
@@ -713,11 +712,9 @@ class __$CurrentCopyWithImpl<$Res> extends _$ChatRoomStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object chatRoom = freezed,
-    Object stream = freezed,
   }) {
     return _then(_Current(
       chatRoom == freezed ? _value.chatRoom : chatRoom as ChatRoom,
-      stream == freezed ? _value.stream : stream as Stream<dynamic>,
     ));
   }
 
@@ -733,18 +730,14 @@ class __$CurrentCopyWithImpl<$Res> extends _$ChatRoomStateCopyWithImpl<$Res>
 }
 
 class _$_Current implements _Current {
-  const _$_Current(this.chatRoom, this.stream)
-      : assert(chatRoom != null),
-        assert(stream != null);
+  const _$_Current(this.chatRoom) : assert(chatRoom != null);
 
   @override
   final ChatRoom chatRoom;
-  @override
-  final Stream<dynamic> stream;
 
   @override
   String toString() {
-    return 'ChatRoomState.current(chatRoom: $chatRoom, stream: $stream)';
+    return 'ChatRoomState.current(chatRoom: $chatRoom)';
   }
 
   @override
@@ -753,16 +746,12 @@ class _$_Current implements _Current {
         (other is _Current &&
             (identical(other.chatRoom, chatRoom) ||
                 const DeepCollectionEquality()
-                    .equals(other.chatRoom, chatRoom)) &&
-            (identical(other.stream, stream) ||
-                const DeepCollectionEquality().equals(other.stream, stream)));
+                    .equals(other.chatRoom, chatRoom)));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(chatRoom) ^
-      const DeepCollectionEquality().hash(stream);
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(chatRoom);
 
   @override
   _$CurrentCopyWith<_Current> get copyWith =>
@@ -772,23 +761,23 @@ class _$_Current implements _Current {
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required Result initial(),
-    @required Result current(ChatRoom chatRoom, Stream<dynamic> stream),
+    @required Result current(ChatRoom chatRoom),
   }) {
     assert(initial != null);
     assert(current != null);
-    return current(chatRoom, stream);
+    return current(chatRoom);
   }
 
   @override
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result initial(),
-    Result current(ChatRoom chatRoom, Stream<dynamic> stream),
+    Result current(ChatRoom chatRoom),
     @required Result orElse(),
   }) {
     assert(orElse != null);
     if (current != null) {
-      return current(chatRoom, stream);
+      return current(chatRoom);
     }
     return orElse();
   }
@@ -820,10 +809,8 @@ class _$_Current implements _Current {
 }
 
 abstract class _Current implements ChatRoomState {
-  const factory _Current(ChatRoom chatRoom, Stream<dynamic> stream) =
-      _$_Current;
+  const factory _Current(ChatRoom chatRoom) = _$_Current;
 
   ChatRoom get chatRoom;
-  Stream<dynamic> get stream;
   _$CurrentCopyWith<_Current> get copyWith;
 }

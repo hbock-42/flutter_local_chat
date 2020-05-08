@@ -29,18 +29,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
         print("LOLO");
         state.when(
           initial: () => {},
-          current: (chatRoom, stream) {
-            print('hello');
-            stream.listen((messageString) {
-              print("qdqw");
-              setState(() {
-                _chatRoom.messages.add(Message(
-                    content: messageString, type: MessageType.Received));
-                _forceRebuild();
-              });
-            });
-            setState(() {});
-          },
+          current: (chatRoom) {},
         );
       },
       child: Container(
@@ -78,9 +67,5 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                   ))
               .toList()),
     );
-  }
-
-  void _forceRebuild() {
-    setState(() {});
   }
 }
