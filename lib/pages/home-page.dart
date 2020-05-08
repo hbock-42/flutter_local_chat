@@ -21,6 +21,8 @@ class _HomePageState extends State<HomePage> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         OpenContainer(
+          transitionType: ContainerTransitionType.fadeThrough,
+          transitionDuration: Duration(milliseconds: 800),
           closedColor: Colors.transparent,
           openColor: AppTheme.widgetBackgroundColor,
           closedBuilder: (BuildContext context, void Function() action) =>
